@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <title>HW-9 | Stickers</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script defer src="js/model.js"></script>
+    <script defer src="js/controller.js"></script>
+    <script defer src="js/view.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="section">
+        <h1>Приложение для заметок</h1>
+      </div>
+
+      <div class="section">
+        <div class="form">
+          <textarea
+            class="form-textarea"
+            rows="4"
+            placeholder="Введите вашу заметку..."
+          ></textarea>
+
+          <button class="form-addButton">Добавить заметку</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="notes-header">
+          <h2>Список заметок</h2>
+
+          <span class="notes-count">Всего заметок: 0</span>
+        </div>
+
+        <div class="notes"></div>
+      </div>
+    </div>
+  </body>
+</html>
