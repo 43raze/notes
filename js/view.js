@@ -4,28 +4,48 @@ elAddNoteButton.addEventListener('click', onClickButtonAddNote);
 
 function onClickButtonAddNote() {
   const elFormTextArea = document.querySelector('.form-textarea');
+
   if (elFormTextArea.value.trim() === '') return;
 
   const text = elFormTextArea.value;
+
   handleAddNote(text);
+
   elFormTextArea.value = '';
 }
 
 function onClickButtonDeleteNote(e) {
   const text = e.target.parentNode.children[0].textContent;
+
   handleRemoveNote(text);
 }
 
 function onDblClickEditNote(e) {
   const elParagraph = e.target;
   const elTextArea = document.createElement('textarea');
+  const oldText = elParagraph.textContent;
 
-  elTextArea.value = elParagraph.textContent;
+  elTextArea.value = oldText;
+
   elParagraph.replaceWith(elTextArea);
   elTextArea.focus();
 
-  elTextArea.addEventListener('keydown', onKeyDownTextArea);
-  elTextArea.addEventListener('blur', onBlurTextArea);
+  elTextArea.addEventListener('keydown', handleKeyDownTextArea);
+  elTextArea.addEventListener('blur', handleBlurTextArea);
+
+  elTextArea.oldText = oldText;
+}
+
+function onKeyDownTextArea(e, elTextArea, oldText) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+
+    saveNoteChanges(elTextArea, oldText);
+  }
+}
+
+function onBlurTextArea(e, elTextArea, oldText) {
+  saveNoteChanges(elTextArea, oldText);
 }
 
 function renderNotesList(notesList) {
@@ -44,32 +64,24 @@ function renderNote(text) {
   elNoteList.appendChild(elNote);
 }
 
-function onKeyDownTextArea(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    saveNoteChanges(e.target);
-  }
+function renderNotesCount(notesCount) {
+  const elNotesCount = document.querySelector('.notes-count');
+
+  elNotesCount.textContent = `Всего заметок: ${notesCount}`;
 }
 
-function onBlurTextArea(e) {
-  saveNoteChanges(e.target);
-}
-
-function saveNoteChanges(elTextArea) {
-  const text = elTextArea.value.trim();
-  if (text === '') return;
+function saveNoteChanges(elTextArea, oldText) {
+  const newText = elTextArea.value.trim();
+  if (newText === '') return;
 
   const elParagraph = document.createElement('p');
   elParagraph.classList.add('notes-text');
-  elParagraph.textContent = text;
+  elParagraph.textContent = newText;
 
   elParagraph.addEventListener('dblclick', onDblClickEditNote);
   elTextArea.replaceWith(elParagraph);
-}
 
-function renderNotesCount(notesCount) {
-  const elNotesCount = document.querySelector('.notes-count');
-  elNotesCount.textContent = `Всего заметок: ${notesCount}`;
+  handleUpdateNote(oldText, newText);
 }
 
 function generateNote(text) {
@@ -87,8 +99,8 @@ function generateNote(text) {
   elDiv.appendChild(elParagraph);
   elDiv.appendChild(elButtonDelete);
 
-  elParagraph.addEventListener('dblclick', onDblClickEditNote);
   elButtonDelete.addEventListener('click', onClickButtonDeleteNote);
+  elParagraph.addEventListener('dblclick', onDblClickEditNote);
 
   return elDiv;
 }

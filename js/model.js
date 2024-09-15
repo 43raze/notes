@@ -7,28 +7,24 @@ function calcNotesCount() {
 
 function addNote(note) {
   notes.push(note);
+
   calcNotesCount();
 }
 
 function removeNote(note) {
   const indexNotes = notes.indexOf(note);
+
   if (indexNotes > -1) {
     notes.splice(indexNotes, 1);
   }
+
   calcNotesCount();
 }
 
-// notes
+function updateNote(oldNote, newNote) {
+  const indexNotes = notes.indexOf(oldNote);
 
-// addNote('Приготовить ужин')
-// notesCount
-
-// addNote('Приготовить завтрак')
-// notesCount
-
-// notes
-
-// // removeNote('Приготовить ужин')
-// notesCount
-
-// notes
+  if (indexNotes > -1) {
+    notes[indexNotes] = newNote;
+  }
+}
