@@ -7,24 +7,19 @@ function calcNotesCount() {
 
 function addNote(note) {
   notes.push(note)
-
   calcNotesCount()
 }
 
 function removeNote(note) {
   const indexNotes = notes.indexOf(note)
-
   if (indexNotes > -1) {
     notes.splice(indexNotes, 1)
   }
-
   calcNotesCount()
 }
 
-function updateNote(oldNote, newNote) {
-  const indexNotes = notes.indexOf(oldNote)
-
-  if (indexNotes > -1) {
-    notes[indexNotes] = newNote
+function updateNote(noteIdx, newNote) {
+  if (noteIdx > -1) {
+    notes[noteIdx] = newNote
   }
 }
