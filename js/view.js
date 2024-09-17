@@ -1,106 +1,106 @@
-const elAddNoteButton = document.querySelector('.form-addButton');
+const elAddNoteButton = document.querySelector('.form-addButton')
 
-elAddNoteButton.addEventListener('click', onClickButtonAddNote);
+elAddNoteButton.addEventListener('click', onClickButtonAddNote)
 
 function onClickButtonAddNote() {
-  const elFormTextArea = document.querySelector('.form-textarea');
+  const elFormTextArea = document.querySelector('.form-textarea')
 
-  if (elFormTextArea.value.trim() === '') return;
+  if (elFormTextArea.value.trim() === '') return
 
-  const text = elFormTextArea.value;
+  const text = elFormTextArea.value
 
-  handleAddNote(text);
+  handleAddNote(text)
 
-  elFormTextArea.value = '';
+  elFormTextArea.value = ''
 }
 
 function onClickButtonDeleteNote(e) {
-  const text = e.target.parentNode.children[0].textContent;
+  const text = e.target.parentNode.children[0].textContent
 
-  handleRemoveNote(text);
+  handleRemoveNote(text)
 }
 
 function onDblClickEditNote(e) {
-  const elParagraph = e.target;
-  const elTextArea = document.createElement('textarea');
-  const oldText = elParagraph.textContent;
+  const elParagraph = e.target
+  const elTextArea = document.createElement('textarea')
+  const oldText = elParagraph.textContent
 
-  elTextArea.value = oldText;
+  elTextArea.value = oldText
 
-  elParagraph.replaceWith(elTextArea);
-  elTextArea.focus();
+  elParagraph.replaceWith(elTextArea)
+  elTextArea.focus()
 
-  elTextArea.addEventListener('keydown', handleKeyDownTextArea);
-  elTextArea.addEventListener('blur', handleBlurTextArea);
+  elTextArea.addEventListener('keydown', handleKeyDownTextArea)
+  elTextArea.addEventListener('blur', handleBlurTextArea)
 
-  elTextArea.oldText = oldText;
+  elTextArea.oldText = oldText
 }
 
 function onKeyDownTextArea(e, elTextArea, oldText) {
   if (e.key === 'Enter') {
-    e.preventDefault();
+    e.preventDefault()
 
-    saveNoteChanges(elTextArea, oldText);
+    saveNoteChanges(elTextArea, oldText)
   }
 }
 
 function onBlurTextArea(e, elTextArea, oldText) {
-  saveNoteChanges(elTextArea, oldText);
+  saveNoteChanges(elTextArea, oldText)
 }
 
 function renderNotesList(notesList) {
-  const elNoteList = document.querySelector('.notes');
-  elNoteList.innerHTML = '';
+  const elNoteList = document.querySelector('.notes')
+  elNoteList.innerHTML = ''
 
   for (const text of notesList) {
-    renderNote(text);
+    renderNote(text)
   }
 }
 
 function renderNote(text) {
-  const elNoteList = document.querySelector('.notes');
-  const elNote = generateNote(text);
+  const elNoteList = document.querySelector('.notes')
+  const elNote = generateNote(text)
 
-  elNoteList.appendChild(elNote);
+  elNoteList.appendChild(elNote)
 }
 
 function renderNotesCount(notesCount) {
-  const elNotesCount = document.querySelector('.notes-count');
+  const elNotesCount = document.querySelector('.notes-count')
 
-  elNotesCount.textContent = `Всего заметок: ${notesCount}`;
+  elNotesCount.textContent = `Всего заметок: ${notesCount}`
 }
 
 function saveNoteChanges(elTextArea, oldText) {
-  const newText = elTextArea.value.trim();
-  if (newText === '') return;
+  const newText = elTextArea.value.trim()
+  if (newText === '') return
 
-  const elParagraph = document.createElement('p');
-  elParagraph.classList.add('notes-text');
-  elParagraph.textContent = newText;
+  const elParagraph = document.createElement('p')
+  elParagraph.classList.add('notes-text')
+  elParagraph.textContent = newText
 
-  elParagraph.addEventListener('dblclick', onDblClickEditNote);
-  elTextArea.replaceWith(elParagraph);
+  elParagraph.addEventListener('dblclick', onDblClickEditNote)
+  elTextArea.replaceWith(elParagraph)
 
-  handleUpdateNote(oldText, newText);
+  handleUpdateNote(oldText, newText)
 }
 
 function generateNote(text) {
-  const elDiv = document.createElement('div');
-  const elParagraph = document.createElement('p');
-  const elButtonDelete = document.createElement('button');
+  const elDiv = document.createElement('div')
+  const elParagraph = document.createElement('p')
+  const elButtonDelete = document.createElement('button')
 
-  elDiv.classList.add('notes-card');
-  elParagraph.classList.add('notes-text');
-  elButtonDelete.classList.add('notes-deleteButton');
+  elDiv.classList.add('notes-card')
+  elParagraph.classList.add('notes-text')
+  elButtonDelete.classList.add('notes-deleteButton')
 
-  elParagraph.textContent = text;
-  elButtonDelete.textContent = 'Удалить';
+  elParagraph.textContent = text
+  elButtonDelete.textContent = 'Удалить'
 
-  elDiv.appendChild(elParagraph);
-  elDiv.appendChild(elButtonDelete);
+  elDiv.appendChild(elParagraph)
+  elDiv.appendChild(elButtonDelete)
 
-  elButtonDelete.addEventListener('click', onClickButtonDeleteNote);
-  elParagraph.addEventListener('dblclick', onDblClickEditNote);
+  elButtonDelete.addEventListener('click', onClickButtonDeleteNote)
+  elParagraph.addEventListener('dblclick', onDblClickEditNote)
 
-  return elDiv;
+  return elDiv
 }
